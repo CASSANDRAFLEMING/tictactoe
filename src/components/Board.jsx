@@ -34,13 +34,11 @@ function Board(props) {
         let winner;
         let rowCheck = [];
         let columnCheck = []
-        console.log("winStateCheck has been triggered!")
 
-        //rowCheck
+        //row win condition check
 
         for (let item of boardRef.current.children) {
             if(!winState){
-                console.log(item);
                 for (let tile of item.children) {
                     if (tile.classList.contains("player1")) {
                         rowCheck.push(1);
@@ -51,16 +49,15 @@ function Board(props) {
                     }
                 }
 
-                console.log(rowCheck);
                 if (rowCheck.length === 3) {
                     for (let x = 1; x < 3; x++) {
                         if (rowCheck[x] === rowCheck[x-1]){
                             winState = true;
                         }else{
                             winState = false;
+                            console.log("we hit the false condition");
                         }
                     }
-                    console.log(winState);
                     if (winState) {
                         if (rowCheck[0] === 1){
                             winner = "player1";
@@ -72,6 +69,47 @@ function Board(props) {
 
                 }
                 rowCheck = [];
+            }
+
+        }
+
+        // column win condition check
+
+        for (let x = 0; x < 3; x++) { //we know we have 3 columns
+            if(!winState){
+                for (let y = 0; y <= 3; y++) { // each column has 3 rows
+                    for (let item of boardRef.current.children) {
+                        if (item.children[x].classList.contains("player1")) {
+                            columnCheck.push(1);
+                        } else if (item.children[x].classList.contains("player2")) {
+                            columnCheck.push(2);
+                        } else {
+                            break;
+                        }
+                    }
+                    console.log(columnCheck);
+                    if (columnCheck.length === 3) {
+                        for (let x = 1; x < 3; x++) {
+                            if (columnCheck[x] === columnCheck[x-1]){
+                                winState = true;
+                            }else{
+                                winState = false;
+                            }
+                        }
+                        if (winState) {
+                            if (columnCheck[0] === 1){
+                                winner = "player1";
+                            }else{
+                                winner = "player2";
+                            }
+                            alert(`The winner is ${winner}`);
+                        }
+
+                    }
+                    columnCheck = [];
+                }
+
+
             }
 
         }
