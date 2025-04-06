@@ -37,24 +37,43 @@ function Board(props) {
         console.log("winStateCheck has been triggered!")
 
         //rowCheck
-        for (let item of boardRef.current.children) {
-            for (let tile of item.children) {
-                if (tile.classList.contains("player1")) {
-                    rowCheck.push(1);
-                }else{
-                    break;
-                }
-            }
-            if (rowCheck.length === 3) {
-                winState = true;
-                if (rowCheck[0] === 1){
-                    winner = "player1";
-                }else{
-                    winner = "player2";
-                }
-                console.log("The winner is " + winner);
 
+        for (let item of boardRef.current.children) {
+            if(!winState){
+                console.log(item);
+                for (let tile of item.children) {
+                    if (tile.classList.contains("player1")) {
+                        rowCheck.push(1);
+                    }else if (tile.classList.contains("player2")){
+                        rowCheck.push(2);
+                    }else{
+                        break;
+                    }
+                }
+
+                console.log(rowCheck);
+                if (rowCheck.length === 3) {
+                    for (let x = 1; x < 3; x++) {
+                        if (rowCheck[x] === rowCheck[x-1]){
+                            winState = true;
+                        }else{
+                            winState = false;
+                        }
+                    }
+                    console.log(winState);
+                    if (winState) {
+                        if (rowCheck[0] === 1){
+                            winner = "player1";
+                        }else{
+                            winner = "player2";
+                        }
+                        alert(`The winner is ${winner}`);
+                    }
+
+                }
+                rowCheck = [];
             }
+
         }
 
     }
