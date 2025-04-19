@@ -1,5 +1,6 @@
 import Tile from './Tile.jsx';
 import {useEffect, useRef, useState} from "react";
+import tile from "./Tile.jsx";
 
 /*
 
@@ -25,13 +26,33 @@ the overall game board
 function Board(props) {
     //tiles are named after the row (R) and column (C) they are in. tileR1C1 is tile Row 1 Column 1
 
-    
     //we need to use the useRef react hook to snag the tiles. We don't need the tiles to rerender anyway so its fine
     const boardRef = useRef(null);
+    let winner;
+
+    function setWinner(winArr){
+        if (winArr[0] === 1){
+            return "player1";
+        }else{
+            return "player2";
+        }
+    }
+
+    function evalWinState(winArr){
+        //accepts an array and determines if the values are the same
+        if (winArr.length === 3) {
+            for (let x = 1; x < 3; x++) {
+                if (winArr[x] !== winArr[x-1]){
+                    return false;
+                }
+            }
+            winner = setWinner(winArr);
+            return true;
+        }
+    }
 
     function winStateCheck(){
         let winState = false;
-        let winner;
         let rowCheck = [];
         let columnCheck = []
 
@@ -49,25 +70,7 @@ function Board(props) {
                     }
                 }
 
-                if (rowCheck.length === 3) {
-                    for (let x = 1; x < 3; x++) {
-                        if (rowCheck[x] === rowCheck[x-1]){
-                            winState = true;
-                        }else{
-                            winState = false;
-                            console.log("we hit the false condition");
-                        }
-                    }
-                    if (winState) {
-                        if (rowCheck[0] === 1){
-                            winner = "player1";
-                        }else{
-                            winner = "player2";
-                        }
-                        alert(`The winner is ${winner}`);
-                    }
-
-                }
+                winState = evalWinState(rowCheck);
                 rowCheck = [];
             }
 
@@ -87,31 +90,47 @@ function Board(props) {
                             break;
                         }
                     }
-                    console.log(columnCheck);
-                    if (columnCheck.length === 3) {
-                        for (let x = 1; x < 3; x++) {
-                            if (columnCheck[x] === columnCheck[x-1]){
-                                winState = true;
-                            }else{
-                                winState = false;
-                            }
-                        }
-                        if (winState) {
-                            if (columnCheck[0] === 1){
-                                winner = "player1";
-                            }else{
-                                winner = "player2";
-                            }
-                            alert(`The winner is ${winner}`);
-                        }
-
-                    }
+                    winState = evalWinState(columnCheck);
                     columnCheck = [];
                 }
-
-
             }
+        }
 
+        // diagonal win condition check --- essentially we need [0][0], [1][1], [2][2] and [0][2], [1][1], [2][0]
+        if (!winState){
+            if (boardRef.current.children[0].children[0].classList.contains("player1")) {
+                if (boardRef.current.children[1].children[1].classList.contains("player1")){
+                    if (boardRef.current.children[2].children[2].classList.contains("player1")){
+                        winner = "player1";
+                        winState = true;
+                    }
+                }
+            }else if (boardRef.current.children[0].children[0].classList.contains("player2")) {
+                if (boardRef.current.children[1].children[1].classList.contains("player2")) {
+                    if (boardRef.current.children[2].children[2].classList.contains("player2")) {
+                        winner = "player2";
+                        winState = true;
+                    }
+                }
+            }else if (boardRef.current.children[0].children[2].classList.contains("player1")) {
+                if (boardRef.current.children[1].children[1].classList.contains("player1")) {
+                    if (boardRef.current.children[2].children[0].classList.contains("player1")) {
+                        winner = "player1";
+                        winState = true;
+                    }
+                }
+            }else if (boardRef.current.children[0].children[2].classList.contains("player2")) {
+                if (boardRef.current.children[1].children[1].classList.contains("player2")) {
+                    if (boardRef.current.children[2].children[0].classList.contains("player2")) {
+                        winner = "player2";
+                        winState = true;
+                    }
+                }
+            }
+        }
+
+        if (winState) {
+            window.alert(`The winner is ${winner}`);
         }
 
     }
