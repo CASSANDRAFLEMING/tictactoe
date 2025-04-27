@@ -1,7 +1,5 @@
 import Tile from './Tile.jsx';
-import {useEffect, useRef, useState} from "react";
-import tile from "./Tile.jsx";
-
+import {useRef} from "react";
 /*
 
 the overall game board
@@ -29,6 +27,8 @@ function Board(props) {
     //we need to use the useRef react hook to snag the tiles. We don't need the tiles to rerender anyway so its fine
     const boardRef = useRef(null);
     let winner;
+
+
 
     function setWinner(winArr){
         if (winArr[0] === 1){
@@ -156,6 +156,10 @@ function Board(props) {
                     <Tile id="tileR3C3" winState={winStateCheck} activePlayer={props.player} swapPlayer={props.swapPlayer}></Tile>
                 </div>
             </div>
+
+
+
+
 
         </>
         )

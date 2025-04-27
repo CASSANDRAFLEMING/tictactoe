@@ -1,12 +1,10 @@
 import {useEffect, useState} from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
 import './App.css'
 import Board from './components/Board.jsx'
 
 function App() {
     const [activePlayer, setActivePlayer] = useState(1)
-
+    const [boardKey, setBoardKey] = useState(1)
     function swapPlayer(){
         if(activePlayer === 1){
             setActivePlayer(2);
@@ -14,6 +12,13 @@ function App() {
             setActivePlayer(1);
         }
     }
+
+    function resetBoard(){
+        setBoardKey(boardKey+1);
+        setActivePlayer(1);
+    }
+
+
 
     //win conditions
     /*
@@ -29,12 +34,15 @@ function App() {
         <>
             <h1>Tic Tac Toe Game</h1>
             <div className="board">
-                <Board player={activePlayer} swapPlayer={swapPlayer}/>
+                <Board player={activePlayer} swapPlayer={swapPlayer} key={boardKey}/>
             </div>
             <p className="read-the-docs">
               A tic tac toe game in react app cause why not
             </p>
-            <button onClick={swapPlayer}>A BUTTON FOR PLAYER SWAP</button>
+
+            <button onClick={resetBoard}>Reset the Board</button>
+
+
         </>
     )
 }
