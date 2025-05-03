@@ -38,6 +38,21 @@ function Board(props) {
         }
     }
 
+    function scratchCheck(){
+        let filledBox = 0;
+        for (let item of boardRef.current.children){
+            for (let tile of item.children) {
+                if(tile.classList.contains("player1") || tile.classList.contains("player2")){
+                    filledBox++;
+                }
+            }
+        }
+        if (filledBox === 9){
+            window.alert("No winners: Scratch Game");
+            props.resetBoard();
+        }
+    }
+
     function evalWinState(winArr){
         //accepts an array and determines if the values are the same
         if (winArr.length === 3) {
@@ -55,6 +70,8 @@ function Board(props) {
         let winState = false;
         let rowCheck = [];
         let columnCheck = []
+
+        scratchCheck();
 
         //row win condition check
 
@@ -131,9 +148,12 @@ function Board(props) {
 
         if (winState) {
             window.alert(`The winner is ${winner}`);
+            props.resetBoard();
         }
 
     }
+
+
 
     return (
         <>

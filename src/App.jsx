@@ -18,7 +18,15 @@ function App() {
         setActivePlayer(1);
     }
 
+    function displayModal(){
+        document.getElementById("modalTest").style.display = "flex";
+        document.getElementById("modalTestButton").style.display = "none";
+    }
 
+    function closeModal(){
+        document.getElementById("modalTest").style.display = "none";
+        document.getElementById("modalTestButton").style.display = "block";
+    }
 
     //win conditions
     /*
@@ -32,9 +40,17 @@ function App() {
 
     return (
         <>
+            <button id="modalTestButton" onClick={displayModal}>Open the Modal</button>
+            <div id="modalTest" className="modal">
+                <div className="modal-content">
+                    <p>My first modal</p>
+                    <span className="modal-close" onClick={closeModal}>&times;</span>
+                </div>
+            </div>
+
             <h1>Tic Tac Toe Game</h1>
             <div className="board">
-                <Board player={activePlayer} swapPlayer={swapPlayer} key={boardKey}/>
+                <Board player={activePlayer} swapPlayer={swapPlayer} key={boardKey} resetBoard={resetBoard}/>
             </div>
             <p className="read-the-docs">
               A tic tac toe game in react app cause why not

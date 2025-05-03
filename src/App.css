@@ -92,3 +92,33 @@ button:focus,
 button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
 }
+
+/****** modal css *********/
+.modal{
+  display: none;
+  margin: 0 auto;
+  z-index: 1;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  background-color: rgba(0, 0, 0, 0.4);
+}
+
+.modal-content {
+  display: flex;
+  width: 500px;
+  justify-content: center;
+  background-color: #f9f9f9;
+  color: #1a1a1a;
+  border-radius: 5px;
+  padding: 25px;
+}
+
+.modal-content *{
+  margin: 10px;
+}
+
+.modal-close{
+  cursor: pointer;
+}
